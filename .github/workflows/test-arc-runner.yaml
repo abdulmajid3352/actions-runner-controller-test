@@ -9,7 +9,7 @@ on:
 
 jobs:
   test-runner:
-    runs-on: <ARC_RUNNER_SET_NAME>
+    runs-on: arc-runner-set
     timeout-minutes: 5
     steps:
       - name: Display test message
