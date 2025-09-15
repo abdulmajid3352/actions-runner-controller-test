@@ -1,0 +1,37 @@
+name: Test ARC Runner
+on:
+  workflow_dispatch:
+    inputs:
+      test_message:
+        description: "Test message to display"
+        required: false
+        default: "Hello from ARC Runner!"
+
+jobs:
+  test-runner:
+    runs-on: <ARC_RUNNER_SET_NAME>
+    timeout-minutes: 5
+    steps:
+      - name: Display test message
+        run: |
+          echo "Test message: ${{ github.event.inputs.test_message }}"
+          echo "Runner hostname: $(hostname)"
+          echo "Runner working directory: $(pwd)"
+          echo "Runner environment info:"
+          env | grep -E "(RUNNER_|GITHUB_)" | head -10
+
+      - name: Test basic commands
+        run: |
+          echo "Testing basic commands..."
+          whoami
+          date
+          df -h
+          free -m || echo "free command not available"
+
+      - name: Verify runner capabilities
+        run: |
+          echo "Checking installed tools..."
+          which curl || echo "curl not found"
+          which git || echo "git not found"
+          which docker || echo "docker not found"
+          echo "Test completed successfully!"
